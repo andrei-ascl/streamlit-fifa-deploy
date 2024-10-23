@@ -5,8 +5,20 @@ st.set_page_config(
     page_icon="🏃🏼",
     layout="wide"
 )
-df_data = st.session_state["data"]
 
+# Verifique se 'data' está inicializado no session_state
+if 'data' not in st.session_state:
+    st.session_state['data'] = None  # Inicializa como None ou algum valor padrão
+
+# Agora, você pode acessar o 'data' com segurança
+df_data = st.session_state['data']
+
+# Verifica se os dados foram carregados corretamente
+if df_data is not None:
+    clubes = df_data["Club"].value_counts().index
+    st.write("Clubes:", clubes)
+else:
+    st.error("Nenhum dado encontrado. Por favor, carregue os dados primeiro.")
 
 clubes = df_data["Club"].value_counts().index
 club = st.sidebar.selectbox("Clube", clubes)
